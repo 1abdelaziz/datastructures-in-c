@@ -14,6 +14,7 @@ typedef struct ListNode {
 typedef struct LinkedList {
     size_t length; // Number of elements
     ListNode *head; // First elements of the list
+    ListNode *tail; // Last element of the list
 } LinkedList;
 
 
@@ -54,12 +55,29 @@ bool list_insert_front(LinkedList *list, const Type *const value);
 bool list_insert_back(LinkedList *list, const Type *const value);
 
 /**
+ * @brief Inserts a new element at a specific index.
+ * @param list Pointer to the list
+ * @param index The index to insert at
+ * @param value Pointer to the value to insert
+ * @return true if successful, false if memory allocation failed or index out of bounds
+ */
+bool list_insert_at_index(LinkedList *list, size_t index, const Type *const value);
+
+/**
  * @brief Removes the first occurrence of a value.
  * @param list Pointer to the list
  * @param value Pointer to the value to remove
  * @return true if the value was found and removed, false otherwise
  */
 bool list_remove(LinkedList *list, const Type *const value);
+
+/**
+ * @brief Removes the element at the specified index.
+ * @param list Pointer to the list
+ * @param index The index of the element to remove
+ * @return true if the element was found and removed, false if index out of bounds
+ */
+bool list_remove_at_index(LinkedList *list, size_t index);
 
 /**
  * @brief Searches for a value in the list.

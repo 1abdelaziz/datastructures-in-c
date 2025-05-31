@@ -3,6 +3,7 @@
 void list_init(LinkedList *list) {
     list->length = 0;
     list->head = NULL;
+    list->tail = NULL;
 }
 
 bool list_is_empty(const LinkedList *const list) {
@@ -24,6 +25,10 @@ bool list_insert_front(LinkedList *list, const Type *const value) {
     list->head = new_node;
     list->length++;
 
+    if(list->length == 1) {
+        list->tail = list->head;
+    }
+
     return true;
 }
 
@@ -39,16 +44,45 @@ bool list_insert_back(LinkedList *list, const Type *const value) {
     new_node->next = NULL;
     new_node->value = *value;
 
-    // Get the last node's address
-    ListNode *last_node = list->head;
-    while(last_node->next) {
-        last_node = last_node->next;
-    }
-
-    last_node->next = new_node;
+    list->tail->next = new_node;
+    list->tail = new_node;
     list->length++;
+
     return true;
 }
+
+bool list_insert_at_index(LinkedList *list, size_t index, const Type *const value) {
+    if (index > list->length) {
+        return false;
+    }
+
+    if (index == 0) {
+        return list_insert_front(list, value);
+    }
+
+    if (index == list->length) {
+        return list_insert_back(list, value);
+    }
+
+    ListNode *new_node = malloc(sizeof(ListNode));
+    if (!new_node){
+        return false;
+    }
+    new_node->value = *value;
+
+    // Traverse to the node just before the index
+    ListNode *current = list->head; // Start with the head
+    for (size_t i = 0; i < index - 1; i++) {
+        current = current->next;
+    }
+
+    new_node->next = current->next;
+    current->next = new_node;
+    list->length++;
+
+    return true;
+}
+
 
 bool list_remove(LinkedList *list, const Type *const value) {
     if(list_is_empty(list)) {
@@ -81,6 +115,37 @@ bool list_remove(LinkedList *list, const Type *const value) {
     return false;
 }
 
+bool list_remove_at_index(LinkedList *list, size_t index) {
+    if(index > list->length) {
+        return false;
+    }
+    ListNode *current = list->head;
+
+    if(index == 0) {
+        list->head = current->next;
+        free(current);
+        list->length--;
+
+        return true;
+    }
+
+    // Traverse to the node just before the index
+    for(size_t i = 0; i < index - 1; i++) {
+        current = current->next;
+    }
+
+    ListNode *temp = current->next->next;
+    free(current->next);
+    current->next = temp;
+
+    if(index == list->length - 1) {
+        list->tail = current;
+    }
+
+    list->length--;
+    return true;
+}
+
 bool list_contains(const LinkedList *const list, const Type *const value) {
     if(list_is_empty(list)) {
         return false;
@@ -109,5 +174,6 @@ void list_free(LinkedList *list) {
     }
 
     list->head = NULL;
+    list->tail = NULL;
     list->length = 0;
 }
