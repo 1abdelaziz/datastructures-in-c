@@ -64,6 +64,22 @@ bool list_insert_back(LinkedList *list, const Type *const value);
 bool list_insert_at_index(LinkedList *list, size_t index, const Type *const value);
 
 /**
+ * @brief Inserts a new element at the correct position in an ascending list.
+ * @param list Pointer to the list
+ * @param value Pointer to the value to insert
+ * @return true if successful, false if memory allocation failed
+ */
+bool list_insert_ascending(LinkedList *list, const Type *const value);
+
+/**
+ * @brief Inserts a new element at the correct position in a descending list.
+ * @param list Pointer to the list
+ * @param value Pointer to the value to insert
+ * @return true if successful, false if memory allocation failed
+ */
+bool list_insert_descending(LinkedList *list, const Type *const value);
+
+/**
  * @brief Removes the first occurrence of a value.
  * @param list Pointer to the list
  * @param value Pointer to the value to remove

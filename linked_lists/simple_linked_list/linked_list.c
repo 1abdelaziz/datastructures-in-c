@@ -146,6 +146,51 @@ bool list_remove_at_index(LinkedList *list, size_t index) {
     return true;
 }
 
+bool list_insert_ascending(LinkedList *list, const Type *const value) {
+    ListNode *node = malloc(sizeof(ListNode));
+    if (!node) return false;
+    node->value = *value;
+
+    if (list_is_empty(list) || list->head->value >= *value) {
+        return list_insert_front(list, value);
+    } else {
+        ListNode *current = list->head;
+        while (current->next && current->next->value < *value) {
+            current = current->next;
+        }
+
+        node->next = current->next;
+        current->next = node;
+    }
+
+    list->length++;
+    return true;
+}
+
+
+bool list_insert_descending(LinkedList *list, const Type *const value) {
+    ListNode *node = malloc(sizeof(ListNode));
+    if(!node) {
+        return false;
+    }
+    node->value = *value;
+
+    if(list_is_empty(list) || list->head->value <= *value) {
+        return list_insert_front(list, value);
+    } else {
+        ListNode *current = list->head;
+        while(current->next && current->next->value > *value) {
+            current = current->next;
+        }
+
+        node->next = current->next;
+        current->next = node;
+    }
+
+    list->length++;
+    return true;
+}
+
 bool list_contains(const LinkedList *const list, const Type *const value) {
     if(list_is_empty(list)) {
         return false;
