@@ -57,7 +57,7 @@ bool list_insert_back(LinkedList *list, const Type *const value);
 /**
  * @brief Inserts a new element at a specific index.
  * @param list Pointer to the list
- * @param index The index to insert at
+ * @param index The index to insert at (0-based)
  * @param value Pointer to the value to insert
  * @return true if successful, false if memory allocation failed or index out of bounds
  */
@@ -74,7 +74,7 @@ bool list_remove(LinkedList *list, const Type *const value);
 /**
  * @brief Removes the element at the specified index.
  * @param list Pointer to the list
- * @param index The index of the element to remove
+ * @param index The index of the element to remove (0-based)
  * @return true if the element was found and removed, false if index out of bounds
  */
 bool list_remove_at_index(LinkedList *list, size_t index);
@@ -86,6 +86,16 @@ bool list_remove_at_index(LinkedList *list, size_t index);
  * @return true if found, false otherwise
  */
 bool list_contains(const LinkedList *const list, const Type *value);
+
+/**
+ * @brief Retrieves the value at a specific index.
+ * @param list Pointer to the list
+ * @param index The index of the element to retrieve (0-based)
+ * @param out Pointer to store the retrieved value
+ * @return true if successful, false if index is out of bounds
+ */
+bool list_get_at_index(const LinkedList *const list, size_t index, Type *out);
+
 
 /**
  * @brief Frees all nodes in the list.

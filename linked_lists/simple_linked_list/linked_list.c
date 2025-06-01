@@ -116,7 +116,7 @@ bool list_remove(LinkedList *list, const Type *const value) {
 }
 
 bool list_remove_at_index(LinkedList *list, size_t index) {
-    if(index > list->length) {
+    if(index >= list->length) {
         return false;
     }
     ListNode *current = list->head;
@@ -161,6 +161,20 @@ bool list_contains(const LinkedList *const list, const Type *const value) {
     }
 
     return false;
+}
+
+bool list_get_at_index(const LinkedList *const list, size_t index, Type *out) {
+    if(index >= list->length) {
+        return false;
+    }
+
+    ListNode *node = list->head;
+    for(size_t i = 0; i < index; i++) {
+        node = node->next;
+    }
+
+    *out = node->value;
+    return true;
 }
 
 void list_free(LinkedList *list) {
